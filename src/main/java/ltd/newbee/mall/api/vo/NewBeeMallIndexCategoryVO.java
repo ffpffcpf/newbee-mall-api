@@ -26,14 +26,8 @@ public class NewBeeMallIndexCategoryVO implements Serializable {
     @ApiModelProperty("当前分类级别")
     private Byte categoryLevel;
 
-    @ApiModelProperty("当前一级分类中文名称")
-    private String categoryZhName;
-
-    @ApiModelProperty("当前一级分类英文名称")
-    private String categoryEnName;
-
-    @ApiModelProperty("当前一级分类柬文名称")
-    private String categoryCaName;
+    @ApiModelProperty("当前一级分类名称")
+    private String categoryName;
 
     @ApiModelProperty("二级分类列表")
     private List<SecondLevelCategoryVO> secondLevelCategoryVOS;

@@ -25,12 +25,6 @@ public class ThirdLevelCategoryVO implements Serializable {
     @ApiModelProperty("当前分类级别")
     private Byte categoryLevel;
 
-    @ApiModelProperty("当前三级分类中文名称")
-    private String categoryZhName;
-
-    @ApiModelProperty("当前三级分类英文名称")
-    private String categoryEnName;
-
-    @ApiModelProperty("当前三级分类柬文名称")
-    private String categoryCaName;
+    @ApiModelProperty("当前三级分类名称")
+    private String categoryName;
 }

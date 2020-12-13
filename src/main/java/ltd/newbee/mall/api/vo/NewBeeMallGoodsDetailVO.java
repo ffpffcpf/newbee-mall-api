@@ -25,14 +25,8 @@ public class NewBeeMallGoodsDetailVO implements Serializable {
     @ApiModelProperty("商品名称")
     private String goodsName;
 
-    @ApiModelProperty("商品中文简介")
-    private String goodsZhIntro;
-
-    @ApiModelProperty("商品英文简介")
-    private String goodsEnIntro;
-
-    @ApiModelProperty("商品柬文简介")
-    private String goodsCaIntro;
+    @ApiModelProperty("商品简介")
+    private String goodsIntro;
 
     @ApiModelProperty("商品图片地址")
     private String goodsCoverImg;
@@ -49,12 +43,6 @@ public class NewBeeMallGoodsDetailVO implements Serializable {
     @ApiModelProperty("商品原价")
     private Integer originalPrice;
 
-    @ApiModelProperty("商品中文详情字段")
-    private String goodsDetailZhContent;
-
-    @ApiModelProperty("商品英文详情字段")
-    private String goodsDetailEnContent;
-
-    @ApiModelProperty("商品柬文详情字段")
-    private String goodsDetailCaContent;
+    @ApiModelProperty("商品详情字段")
+    private String goodsDetailContent;
 }
