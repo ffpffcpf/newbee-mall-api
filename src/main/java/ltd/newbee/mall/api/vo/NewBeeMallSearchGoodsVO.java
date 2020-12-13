@@ -22,11 +22,23 @@ public class NewBeeMallSearchGoodsVO implements Serializable {
     @ApiModelProperty("商品id")
     private Long goodsId;
 
-    @ApiModelProperty("商品名称")
-    private String goodsName;
+    @ApiModelProperty("商品中文名称")
+    private String goodsZhName;
 
-    @ApiModelProperty("商品简介")
-    private String goodsIntro;
+    @ApiModelProperty("商品英文名称")
+    private String goodsEnName;
+
+    @ApiModelProperty("商品柬文名称")
+    private String goodsCaName;
+
+    @ApiModelProperty("商品中文简介")
+    private String goodsZhIntro;
+
+    @ApiModelProperty("商品英文简介")
+    private String goodsEnIntro;
+
+    @ApiModelProperty("商品柬文简介")
+    private String goodsCaIntro;
 
     @ApiModelProperty("商品图片地址")
     private String goodsCoverImg;
