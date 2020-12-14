@@ -154,7 +154,7 @@ public class NewBeeMallShoppingCartServiceImpl implements NewBeeMallShoppingCart
                 if (newBeeMallGoodsMap.containsKey(newBeeMallShoppingCartItem.getGoodsId())) {
                     NewBeeMallGoods newBeeMallGoodsTemp = newBeeMallGoodsMap.get(newBeeMallShoppingCartItem.getGoodsId());
                     newBeeMallShoppingCartItemVO.setGoodsCoverImg(newBeeMallGoodsTemp.getGoodsCoverImg());
-                    String goodsName = newBeeMallGoodsTemp.getGoodsName();
+                    String goodsName = newBeeMallGoodsTemp.getGoodsZhName();
                     // 字符串过长导致文字超出的问题
                     if (goodsName.length() > 28) {
                         goodsName = goodsName.substring(0, 28) + "...";

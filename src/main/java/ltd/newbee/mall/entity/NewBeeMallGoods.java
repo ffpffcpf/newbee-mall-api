@@ -17,9 +17,13 @@ import java.util.Date;
 public class NewBeeMallGoods {
     private Long goodsId;
 
-    private String goodsName;
+    private String goodsZhName;
+    private String goodsEnName;
+    private String goodsCaName;
 
-    private String goodsIntro;
+    private String goodsZhIntro;
+    private String goodsEnIntro;
+    private String goodsCaIntro;
 
     private Long goodsCategoryId;
 
@@ -47,5 +51,7 @@ public class NewBeeMallGoods {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
-    private String goodsDetailContent;
+    private String goodsDetailZhContent;
+    private String goodsDetailEnContent;
+    private String goodsDetailCaContent;
 }

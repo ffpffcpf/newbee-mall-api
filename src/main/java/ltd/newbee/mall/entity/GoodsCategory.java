@@ -21,7 +21,11 @@ public class GoodsCategory {
 
     private Long parentId;
 
-    private String categoryName;
+    private String categoryZhName;
+
+    private String categoryEnName;
+
+    private String categoryCaName;
 
     private Integer categoryRank;
 

@@ -35,7 +35,7 @@ public class NewBeeMallCategoryServiceImpl implements NewBeeMallCategoryService 
 
     @Override
     public String saveCategory(GoodsCategory goodsCategory) {
-        GoodsCategory temp = goodsCategoryMapper.selectByLevelAndName(goodsCategory.getCategoryLevel(), goodsCategory.getCategoryName());
+        GoodsCategory temp = goodsCategoryMapper.selectByLevelAndName(goodsCategory.getCategoryLevel(), goodsCategory.getCategoryZhName());
         if (temp != null) {
             return ServiceResultEnum.SAME_CATEGORY_EXIST.getResult();
         }
@@ -51,7 +51,7 @@ public class NewBeeMallCategoryServiceImpl implements NewBeeMallCategoryService 
         if (temp == null) {
             return ServiceResultEnum.DATA_NOT_EXIST.getResult();
         }
-        GoodsCategory temp2 = goodsCategoryMapper.selectByLevelAndName(goodsCategory.getCategoryLevel(), goodsCategory.getCategoryName());
+        GoodsCategory temp2 = goodsCategoryMapper.selectByLevelAndName(goodsCategory.getCategoryLevel(), goodsCategory.getCategoryZhName());
         if (temp2 != null && !temp2.getCategoryId().equals(goodsCategory.getCategoryId())) {
             //同名且不同id 不能继续修改
             return ServiceResultEnum.SAME_CATEGORY_EXIST.getResult();
