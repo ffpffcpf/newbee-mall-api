@@ -8,6 +8,7 @@
  */
 package ltd.newbee.mall.service.impl;
 
+import ltd.newbee.mall.api.mapper.MallIndexCategoryVOMapper;
 import ltd.newbee.mall.api.vo.NewBeeMallIndexCategoryVO;
 import ltd.newbee.mall.api.vo.SecondLevelCategoryVO;
 import ltd.newbee.mall.api.vo.ThirdLevelCategoryVO;
@@ -32,6 +33,9 @@ public class NewBeeMallCategoryServiceImpl implements NewBeeMallCategoryService 
 
     @Autowired
     private GoodsCategoryMapper goodsCategoryMapper;
+
+    @Autowired
+    private MallIndexCategoryVOMapper indexCategoryVOMapper;
 
     @Override
     public String saveCategory(GoodsCategory goodsCategory) {
@@ -78,7 +82,7 @@ public class NewBeeMallCategoryServiceImpl implements NewBeeMallCategoryService 
     }
 
     @Override
-    public List<NewBeeMallIndexCategoryVO> getCategoriesForIndex() {
+    public List<NewBeeMallIndexCategoryVO> getCategoriesForIndex(String lang) {
         List<NewBeeMallIndexCategoryVO> newBeeMallIndexCategoryVOS = new ArrayList<>();
         //获取一级分类的固定数量的数据
         List<GoodsCategory> firstLevelCategories = goodsCategoryMapper.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0L), NewBeeMallCategoryLevelEnum.LEVEL_ONE.getLevel(), Constants.INDEX_CATEGORY_NUMBER);
@@ -98,11 +102,19 @@ public class NewBeeMallCategoryServiceImpl implements NewBeeMallCategoryService 
                     for (GoodsCategory secondLevelCategory : secondLevelCategories) {
                         SecondLevelCategoryVO secondLevelCategoryVO = new SecondLevelCategoryVO();
                         BeanUtil.copyProperties(secondLevelCategory, secondLevelCategoryVO);
+                        indexCategoryVOMapper.mapI18nLangFromEntity(secondLevelCategoryVO, secondLevelCategory, lang);
                         //如果该二级分类下有数据则放入 secondLevelCategoryVOS 对象中
                         if (thirdLevelCategoryMap.containsKey(secondLevelCategory.getCategoryId())) {
                             //根据二级分类的id取出thirdLevelCategoryMap分组中的三级分类list
                             List<GoodsCategory> tempGoodsCategories = thirdLevelCategoryMap.get(secondLevelCategory.getCategoryId());
-                            secondLevelCategoryVO.setThirdLevelCategoryVOS((BeanUtil.copyList(tempGoodsCategories, ThirdLevelCategoryVO.class)));
+                            List<ThirdLevelCategoryVO> thirdLevelCategoryVOList = new ArrayList<>();
+                            tempGoodsCategories.stream().forEach(category -> {
+                                    ThirdLevelCategoryVO thirdLevelCategoryVO = new ThirdLevelCategoryVO();
+                                    BeanUtil.copyProperties(category, thirdLevelCategoryVO);
+                                    indexCategoryVOMapper.mapI18nLangFromEntity(thirdLevelCategoryVO, category, lang);
+                                    thirdLevelCategoryVOList.add(thirdLevelCategoryVO);
+                            });
+                            secondLevelCategoryVO.setThirdLevelCategoryVOS(thirdLevelCategoryVOList);
                             secondLevelCategoryVOS.add(secondLevelCategoryVO);
                         }
                     }
@@ -113,6 +125,7 @@ public class NewBeeMallCategoryServiceImpl implements NewBeeMallCategoryService 
                         for (GoodsCategory firstCategory : firstLevelCategories) {
                             NewBeeMallIndexCategoryVO newBeeMallIndexCategoryVO = new NewBeeMallIndexCategoryVO();
                             BeanUtil.copyProperties(firstCategory, newBeeMallIndexCategoryVO);
+                            indexCategoryVOMapper.mapI18nLangFromEntity(newBeeMallIndexCategoryVO, firstCategory, lang);
                             //如果该一级分类下有数据则放入 newBeeMallIndexCategoryVOS 对象中
                             if (secondLevelCategoryVOMap.containsKey(firstCategory.getCategoryId())) {
                                 //根据一级分类的id取出secondLevelCategoryVOMap分组中的二级级分类list

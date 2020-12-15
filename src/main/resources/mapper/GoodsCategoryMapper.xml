@@ -13,7 +13,9 @@ Copyright (c) 2020 十三 all rights reserved.
         <id column="category_id" jdbcType="BIGINT" property="categoryId"/>
         <result column="category_level" jdbcType="TINYINT" property="categoryLevel"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
-        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="category_name_zh" jdbcType="VARCHAR" property="categoryZhName"/>
+        <result column="category_name_en" jdbcType="VARCHAR" property="categoryEnName"/>
+        <result column="category_name_ca" jdbcType="VARCHAR" property="categoryCaName"/>
         <result column="category_rank" jdbcType="INTEGER" property="categoryRank"/>
         <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -22,7 +24,7 @@ Copyright (c) 2020 十三 all rights reserved.
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
     </resultMap>
     <sql id="Base_Column_List">
-    category_id, category_level, parent_id, category_name, category_rank, is_deleted, 
+    category_id, category_level, parent_id, category_name_zh, category_name_en, category_name_ca, category_rank, is_deleted,
     create_time, create_user, update_time, update_user
   </sql>
     <select id="findGoodsCategoryList" parameterType="Map" resultMap="BaseResultMap">
@@ -65,7 +67,7 @@ Copyright (c) 2020 十三 all rights reserved.
         select
         <include refid="Base_Column_List"/>
         from tb_newbee_mall_goods_category
-        where category_name = #{categoryName,jdbcType=VARCHAR} and category_level = #{categoryLevel,jdbcType=TINYINT}
+        where category_name_zh = #{categoryZhName,jdbcType=VARCHAR} and category_level = #{categoryLevel,jdbcType=TINYINT}
         and is_deleted = 0 limit 1
     </select>
     <select id="selectByLevelAndParentIdsAndNumber" resultMap="BaseResultMap">
@@ -96,7 +98,7 @@ Copyright (c) 2020 十三 all rights reserved.
     </update>
     <insert id="insert" parameterType="ltd.newbee.mall.entity.GoodsCategory">
     insert into tb_newbee_mall_goods_category (category_id, category_level, parent_id, 
-      category_name, category_rank, is_deleted, 
+      category_name_zh, category_name_en, category_name_ca, category_rank, is_deleted,
       create_time, create_user, update_time, 
       update_user)
     values (#{categoryId,jdbcType=BIGINT}, #{categoryLevel,jdbcType=TINYINT}, #{parentId,jdbcType=BIGINT}, 
@@ -116,8 +118,14 @@ Copyright (c) 2020 十三 all rights reserved.
             <if test="parentId != null">
                 parent_id,
             </if>
-            <if test="categoryName != null">
-                category_name,
+            <if test="categoryZhName != null">
+                category_name_zh,
+            </if>
+            <if test="categoryEnName != null">
+                category_name_en,
+            </if>
+            <if test="categoryCaName != null">
+                category_name_ca,
             </if>
             <if test="categoryRank != null">
                 category_rank,
@@ -180,8 +188,14 @@ Copyright (c) 2020 十三 all rights reserved.
             <if test="parentId != null">
                 parent_id = #{parentId,jdbcType=BIGINT},
             </if>
-            <if test="categoryName != null">
-                category_name = #{categoryName,jdbcType=VARCHAR},
+            <if test="categoryZhName != null">
+                category_name_zh = #{categoryZhName,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryEnName != null">
+                category_name_en = #{categoryEnName,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryCaName != null">
+                category_name_ca = #{categoryCaName,jdbcType=VARCHAR},
             </if>
             <if test="categoryRank != null">
                 category_rank = #{categoryRank,jdbcType=INTEGER},
@@ -208,7 +222,9 @@ Copyright (c) 2020 十三 all rights reserved.
     update tb_newbee_mall_goods_category
     set category_level = #{categoryLevel,jdbcType=TINYINT},
       parent_id = #{parentId,jdbcType=BIGINT},
-      category_name = #{categoryName,jdbcType=VARCHAR},
+      category_name_zh = #{categoryZhName,jdbcType=VARCHAR},
+      category_name_en = #{categoryEnName,jdbcType=VARCHAR},
+      category_name_ca = #{categoryCaName,jdbcType=VARCHAR},
       category_rank = #{categoryRank,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

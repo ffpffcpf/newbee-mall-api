@@ -18,6 +18,7 @@ import ltd.newbee.mall.util.Result;
 import ltd.newbee.mall.util.ResultGenerator;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +35,8 @@ public class NewBeeMallGoodsCategoryAPI {
 
     @GetMapping("/categories")
     @ApiOperation(value = "获取分类数据", notes = "分类页面使用")
-    public Result<List<NewBeeMallIndexCategoryVO>> getCategories() {
-        List<NewBeeMallIndexCategoryVO> categories = newBeeMallCategoryService.getCategoriesForIndex();
+    public Result<List<NewBeeMallIndexCategoryVO>> getCategories(@RequestHeader(value = "lang", defaultValue = "") String lang) {
+        List<NewBeeMallIndexCategoryVO> categories = newBeeMallCategoryService.getCategoriesForIndex(lang);
         if (CollectionUtils.isEmpty(categories)) {
             NewBeeMallException.fail(ServiceResultEnum.DATA_NOT_EXIST.getResult());
         }

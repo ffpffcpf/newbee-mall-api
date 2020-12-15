@@ -24,9 +24,9 @@ public interface NewBeeMallCategoryService {
     Boolean deleteBatch(Integer[] ids);
 
     /**
-     * 返回分类数据(首页调用)
-     *
+     * 返回分类
+     * @param lang 分类语言 zh-CN中文，en-US英文，ca-ca柬文
      * @return
      */
-    List<NewBeeMallIndexCategoryVO> getCategoriesForIndex();
+    List<NewBeeMallIndexCategoryVO> getCategoriesForIndex(String lang);
 }
