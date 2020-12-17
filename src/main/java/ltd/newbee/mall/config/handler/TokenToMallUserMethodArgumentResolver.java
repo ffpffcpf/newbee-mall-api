@@ -17,6 +17,7 @@ import ltd.newbee.mall.dao.NewBeeMallUserTokenMapper;
 import ltd.newbee.mall.entity.MallUser;
 import ltd.newbee.mall.entity.MallUserToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -30,6 +31,9 @@ import java.io.IOException;
 @Component
 public class TokenToMallUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
+    @Value("${user.tokenCheckToggle: false}")
+    private boolean tokenCheckToggle;
+
     @Autowired
     private MallUserMapper mallUserMapper;
     @Autowired
@@ -39,8 +43,10 @@ public class TokenToMallUserMethodArgumentResolver implements HandlerMethodArgum
     }
 
     public boolean supportsParameter(MethodParameter parameter) {
-        if (parameter.hasParameterAnnotation(TokenToMallUser.class)) {
-            return true;
+        if (tokenCheckToggle) {
+            if (parameter.hasParameterAnnotation(TokenToMallUser.class)) {
+                return true;
+            }
         }
         return false;
     }

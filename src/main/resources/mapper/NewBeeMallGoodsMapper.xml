@@ -31,7 +31,9 @@ Copyright (c) 2020 十三 all rights reserved.
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="ltd.newbee.mall.entity.NewBeeMallGoods">
-        <result column="goods_detail_content" jdbcType="LONGVARCHAR" property="goodsDetailContent"/>
+        <result column="goods_detail_content_zh" jdbcType="LONGVARCHAR" property="goodsDetailZhContent"/>
+        <result column="goods_detail_content_en" jdbcType="LONGVARCHAR" property="goodsDetailEnContent"/>
+        <result column="goods_detail_content_ca" jdbcType="LONGVARCHAR" property="goodsDetailCaContent"/>
     </resultMap>
     <sql id="Base_Column_List">
     goods_id, goods_name_zh, goods_name_en, goods_name_ca,goods_intro_en, goods_intro_ca, goods_intro_zh,goods_category_id, goods_cover_img, goods_carousel, original_price,
@@ -39,13 +41,13 @@ Copyright (c) 2020 十三 all rights reserved.
     update_time
   </sql>
     <sql id="Blob_Column_List">
-    goods_detail_content
+    goods_detail_content_zh, goods_detail_content_en, goods_detail_content_ca
   </sql>
 
     <insert id="batchInsert">
         INSERT INTO tb_newbee_mall_goods_info(goods_name_zh, goods_intro_zh, goods_category_id,goods_cover_img,
         goods_carousel,
-        goods_detail_content,original_price,
+        goods_detail_content_zh,original_price,
         selling_price, stock_num)
         VALUES
         <foreach collection="newBeeMallGoodsList" item="goods" separator=",">
@@ -188,7 +190,7 @@ Copyright (c) 2020 十三 all rights reserved.
       goods_cover_img, goods_carousel, original_price, 
       selling_price, stock_num, tag, 
       goods_sell_status, create_user, create_time, 
-      update_user, update_time, goods_detail_content
+      update_user, update_time, goods_detail_content_zh
       )
     values (#{goodsId,jdbcType=BIGINT}, #{goodsZhName,jdbcType=VARCHAR}, #{goodsZhIntro,jdbcType=VARCHAR}, 
       #{goodsCoverImg,jdbcType=VARCHAR}, #{goodsCarousel,jdbcType=VARCHAR}, #{originalPrice,jdbcType=INTEGER}, 
@@ -245,8 +247,8 @@ Copyright (c) 2020 十三 all rights reserved.
             <if test="updateTime != null">
                 update_time,
             </if>
-            <if test="goodsDetailContent != null">
-                goods_detail_content,
+            <if test="goodsDetailZhContent != null">
+                goods_detail_content_zh,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -345,8 +347,8 @@ Copyright (c) 2020 十三 all rights reserved.
             <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="goodsDetailContent != null">
-                goods_detail_content = #{goodsDetailContent,jdbcType=LONGVARCHAR},
+            <if test="goodsDetailZhContent != null">
+                goods_detail_content_zh = #{goodsDetailContent,jdbcType=LONGVARCHAR},
             </if>
         </set>
         where goods_id = #{goodsId,jdbcType=BIGINT}
@@ -366,7 +368,7 @@ Copyright (c) 2020 十三 all rights reserved.
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user = #{updateUser,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      goods_detail_content = #{goodsDetailContent,jdbcType=LONGVARCHAR}
+      goods_detail_content_zh = #{goodsDetailZhContent,jdbcType=LONGVARCHAR}
     where goods_id = #{goodsId,jdbcType=BIGINT}
   </update>
     <update id="updateByPrimaryKey" parameterType="ltd.newbee.mall.entity.NewBeeMallGoods">

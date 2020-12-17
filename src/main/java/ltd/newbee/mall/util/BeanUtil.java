@@ -1,6 +1,6 @@
 package ltd.newbee.mall.util;
 
-import ltd.newbee.mall.api.mapper.I8nLangMapper;
+import ltd.newbee.mall.api.mapper.I18nLangMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -21,7 +21,7 @@ public abstract class BeanUtil {
         return target;
     }
 
-    public static Object copyProperties(Object source, Object target, String lang, I8nLangMapper mapper) {
+    public static Object copyProperties(Object source, Object target, String lang, I18nLangMapper mapper) {
         target = copyProperties(source, target);
         return mapper.mapI18nLangFromEntity(target, source, lang);
     }
@@ -30,7 +30,7 @@ public abstract class BeanUtil {
         return copyList(sources, clazz, null);
     }
 
-    public static <T> List<T> copyList(List sources, Class<T> clazz, String lang, I8nLangMapper mapper) {
+    public static <T> List<T> copyList(List sources, Class<T> clazz, String lang, I18nLangMapper mapper) {
         List<T> targetList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(sources)) {
             try {

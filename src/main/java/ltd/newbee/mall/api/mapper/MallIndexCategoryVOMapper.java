@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 @Component
-public class MallIndexCategoryVOMapper implements I8nLangMapper<CategoryInfoVo, GoodsCategory> {
+public class MallIndexCategoryVOMapper implements I18nLangMapper<CategoryInfoVo, GoodsCategory> {
 
     /**
      * 根据lang决定vo的CategoryName展示的语言

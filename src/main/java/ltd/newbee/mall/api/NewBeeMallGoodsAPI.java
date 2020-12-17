@@ -9,6 +9,7 @@
 package ltd.newbee.mall.api;
 
 import io.swagger.annotations.*;
+import ltd.newbee.mall.api.mapper.MallGoodsDetailVoMapper;
 import ltd.newbee.mall.api.vo.NewBeeMallSearchGoodsVO;
 import ltd.newbee.mall.common.Constants;
 import ltd.newbee.mall.common.NewBeeMallException;
@@ -21,6 +22,7 @@ import ltd.newbee.mall.service.NewBeeMallGoodsService;
 import ltd.newbee.mall.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +40,9 @@ public class NewBeeMallGoodsAPI {
 
     @Resource
     private NewBeeMallGoodsService newBeeMallGoodsService;
+
+    @Autowired
+    private MallGoodsDetailVoMapper detailVoMapper;
 
     @GetMapping("/search")
     @ApiOperation(value = "商品搜索接口", notes = "根据关键字和分类id进行搜索")
@@ -76,7 +81,9 @@ public class NewBeeMallGoodsAPI {
 
     @GetMapping("/goods/detail/{goodsId}")
     @ApiOperation(value = "商品详情接口", notes = "传参为商品id")
-    public Result<NewBeeMallGoodsDetailVO> goodsDetail(@ApiParam(value = "商品id") @PathVariable("goodsId") Long goodsId, @TokenToMallUser MallUser loginMallUser) {
+    public Result<NewBeeMallGoodsDetailVO> goodsDetail(@ApiParam(value = "商品id") @PathVariable("goodsId") Long goodsId,
+                                                       @RequestHeader(value = "lang", defaultValue = "") String lang,
+                                                       @TokenToMallUser MallUser loginMallUser) {
         logger.info("goods detail api,goodsId={},userId={}", goodsId, loginMallUser.getUserId());
         if (goodsId < 1) {
             return ResultGenerator.genFailResult("参数异常");
@@ -89,7 +96,7 @@ public class NewBeeMallGoodsAPI {
             NewBeeMallException.fail(ServiceResultEnum.GOODS_PUT_DOWN.getResult());
         }
         NewBeeMallGoodsDetailVO goodsDetailVO = new NewBeeMallGoodsDetailVO();
-        BeanUtil.copyProperties(goods, goodsDetailVO);
+        BeanUtil.copyProperties(goods, goodsDetailVO, lang, detailVoMapper);
         goodsDetailVO.setGoodsCarouselList(goods.getGoodsCarousel().split(","));
         return ResultGenerator.genSuccessResult(goodsDetailVO);
     }
