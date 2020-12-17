@@ -1,9 +1,11 @@
 package ltd.newbee.mall.util;
 
+import ltd.newbee.mall.api.mapper.I8nLangMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.util.CollectionUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -19,8 +21,34 @@ public abstract class BeanUtil {
         return target;
     }
 
+    public static Object copyProperties(Object source, Object target, String lang, I8nLangMapper mapper) {
+        target = copyProperties(source, target);
+        return mapper.mapI18nLangFromEntity(target, source, lang);
+    }
+
     public static <T> List<T> copyList(List sources, Class<T> clazz) {
         return copyList(sources, clazz, null);
+    }
+
+    public static <T> List<T> copyList(List sources, Class<T> clazz, String lang, I8nLangMapper mapper) {
+        List<T> targetList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(sources)) {
+            try {
+                for (Object source : sources) {
+                    T target = clazz.newInstance();
+                    copyProperties(source, target);
+                    if (mapper != null) {
+                        mapper.mapI18nLangFromEntity(target, source, lang);
+                    }
+                    targetList.add(target);
+                }
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return targetList;
     }
 
     public static <T> List<T> copyList(List sources, Class<T> clazz, Callback<T> callback) {

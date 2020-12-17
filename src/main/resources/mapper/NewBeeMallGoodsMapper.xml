@@ -11,8 +11,12 @@ Copyright (c) 2020 十三 all rights reserved.
 <mapper namespace="ltd.newbee.mall.dao.NewBeeMallGoodsMapper">
     <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.NewBeeMallGoods">
         <id column="goods_id" jdbcType="BIGINT" property="goodsId"/>
-        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
-        <result column="goods_intro" jdbcType="VARCHAR" property="goodsIntro"/>
+        <result column="goods_name_zh" jdbcType="VARCHAR" property="goodsZhName"/>
+        <result column="goods_name_en" jdbcType="VARCHAR" property="goodsEnName"/>
+        <result column="goods_name_ca" jdbcType="VARCHAR" property="goodsCaName"/>
+        <result column="goods_intro_zh" jdbcType="VARCHAR" property="goodsZhIntro"/>
+        <result column="goods_intro_en" jdbcType="VARCHAR" property="goodsEnIntro"/>
+        <result column="goods_intro_ca" jdbcType="VARCHAR" property="goodsCaIntro"/>
         <result column="goods_category_id" jdbcType="BIGINT" property="goodsCategoryId"/>
         <result column="goods_cover_img" jdbcType="VARCHAR" property="goodsCoverImg"/>
         <result column="goods_carousel" jdbcType="VARCHAR" property="goodsCarousel"/>
@@ -30,7 +34,7 @@ Copyright (c) 2020 十三 all rights reserved.
         <result column="goods_detail_content" jdbcType="LONGVARCHAR" property="goodsDetailContent"/>
     </resultMap>
     <sql id="Base_Column_List">
-    goods_id, goods_name, goods_intro,goods_category_id, goods_cover_img, goods_carousel, original_price,
+    goods_id, goods_name_zh, goods_intro_zh,goods_category_id, goods_cover_img, goods_carousel, original_price,
     selling_price, stock_num, tag, goods_sell_status, create_user, create_time, update_user, 
     update_time
   </sql>
@@ -39,13 +43,13 @@ Copyright (c) 2020 十三 all rights reserved.
   </sql>
 
     <insert id="batchInsert">
-        INSERT INTO tb_newbee_mall_goods_info(goods_name, goods_intro, goods_category_id,goods_cover_img,
+        INSERT INTO tb_newbee_mall_goods_info(goods_name_zh, goods_intro_zh, goods_category_id,goods_cover_img,
         goods_carousel,
         goods_detail_content,original_price,
         selling_price, stock_num)
         VALUES
         <foreach collection="newBeeMallGoodsList" item="goods" separator=",">
-            (#{goods.goodsName},#{goods.goodsIntro},#{goods.goodsCategoryId},#{goods.goodsCoverImg},#{goods.goodsCarousel},#{goods.goodsDetailContent},#{goods.originalPrice},#{goods.sellingPrice},#{goods.stockNum})
+            (#{goods.goodsZhName},#{goods.goodsZhIntro},#{goods.goodsCategoryId},#{goods.goodsCoverImg},#{goods.goodsCarousel},#{goods.goodsDetailContent},#{goods.originalPrice},#{goods.sellingPrice},#{goods.stockNum})
         </foreach>
     </insert>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
@@ -74,8 +78,8 @@ Copyright (c) 2020 十三 all rights reserved.
         <include refid="Base_Column_List"/>
         from tb_newbee_mall_goods_info
         <where>
-            <if test="goodsName!=null and goodsName!=''">
-                and goods_name like CONCAT('%','#{goodsName}','%')
+            <if test="goodsZhName!=null and goodsZhName!=''">
+                and goods_name_zh like CONCAT('%','#{goodsZhName}','%')
             </if>
             <if test="goodsSellStatus!=null and goodsSellStatus!=''">
                 and goods_sell_status = #{goodsSellStatus}
@@ -99,7 +103,7 @@ Copyright (c) 2020 十三 all rights reserved.
         from tb_newbee_mall_goods_info
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (goods_name like CONCAT('%',#{keyword},'%') or goods_intro like CONCAT('%',#{keyword},'%'))
+                and (goods_name_zh like CONCAT('%',#{keyword},'%') or goods_intro_zh like CONCAT('%',#{keyword},'%'))
             </if>
             <if test="goodsCategoryId!=null and goodsCategoryId!=''">
                 and goods_category_id = #{goodsCategoryId}
@@ -133,7 +137,7 @@ Copyright (c) 2020 十三 all rights reserved.
         select count(*) from tb_newbee_mall_goods_info
         <where>
             <if test="keyword!=null and keyword!=''">
-                and (goods_name like CONCAT('%',#{keyword},'%') or goods_intro like CONCAT('%',#{keyword},'%'))
+                and (goods_name_zh like CONCAT('%',#{keyword},'%') or goods_intro_zh like CONCAT('%',#{keyword},'%'))
             </if>
             <if test="goodsCategoryId!=null and goodsCategoryId!=''">
                 and goods_category_id = #{goodsCategoryId}
@@ -161,8 +165,8 @@ Copyright (c) 2020 十三 all rights reserved.
     <select id="getTotalNewBeeMallGoods" parameterType="Map" resultType="int">
         select count(*) from tb_newbee_mall_goods_info
         <where>
-            <if test="goodsName!=null and goodsName!=''">
-                and goods_name like CONCAT('%','#{goodsName}','%')
+            <if test="goodsZhName!=null and goodsZhName!=''">
+                and goods_name_zh like CONCAT('%','#{goodsZhName}','%')
             </if>
             <if test="goodsSellStatus!=null and goodsSellStatus!=''">
                 and goods_sell_status = #{goodsSellStatus}
@@ -180,13 +184,13 @@ Copyright (c) 2020 十三 all rights reserved.
     where goods_id = #{goodsId,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="ltd.newbee.mall.entity.NewBeeMallGoods">
-    insert into tb_newbee_mall_goods_info (goods_id, goods_name, goods_intro, 
+    insert into tb_newbee_mall_goods_info (goods_id, goods_name_zh, goods_intro_zh, 
       goods_cover_img, goods_carousel, original_price, 
       selling_price, stock_num, tag, 
       goods_sell_status, create_user, create_time, 
       update_user, update_time, goods_detail_content
       )
-    values (#{goodsId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsIntro,jdbcType=VARCHAR}, 
+    values (#{goodsId,jdbcType=BIGINT}, #{goodsZhName,jdbcType=VARCHAR}, #{goodsZhIntro,jdbcType=VARCHAR}, 
       #{goodsCoverImg,jdbcType=VARCHAR}, #{goodsCarousel,jdbcType=VARCHAR}, #{originalPrice,jdbcType=INTEGER}, 
       #{sellingPrice,jdbcType=INTEGER}, #{stockNum,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
       #{goodsSellStatus,jdbcType=TINYINT}, #{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
@@ -199,11 +203,11 @@ Copyright (c) 2020 十三 all rights reserved.
             <if test="goodsId != null">
                 goods_id,
             </if>
-            <if test="goodsName != null">
-                goods_name,
+            <if test="goodsZhName != null">
+                goods_name_zh,
             </if>
-            <if test="goodsIntro != null">
-                goods_intro,
+            <if test="goodsZhIntro != null">
+                goods_intro_zh,
             </if>
             <if test="goodsCategoryId != null">
                 goods_category_id,
@@ -249,13 +253,13 @@ Copyright (c) 2020 十三 all rights reserved.
             <if test="goodsId != null">
                 #{goodsId,jdbcType=BIGINT},
             </if>
-            <if test="goodsName != null">
-                #{goodsName,jdbcType=VARCHAR},
+            <if test="goodsZhName != null">
+                #{goodsZhName,jdbcType=VARCHAR},
             </if>
-            <if test="goodsIntro != null">
-                #{goodsIntro,jdbcType=VARCHAR},
+            <if test="goodsZhIntro != null">
+                #{goodsZhIntro,jdbcType=VARCHAR},
             </if>
-            <if test="goodsIntro != null">
+            <if test="goodsZhIntro != null">
                 #{goodsCategoryId,jdbcType=BIGINT},
             </if>
             <if test="goodsCoverImg != null">
@@ -299,11 +303,11 @@ Copyright (c) 2020 十三 all rights reserved.
     <update id="updateByPrimaryKeySelective" parameterType="ltd.newbee.mall.entity.NewBeeMallGoods">
         update tb_newbee_mall_goods_info
         <set>
-            <if test="goodsName != null">
-                goods_name = #{goodsName,jdbcType=VARCHAR},
+            <if test="goodsZhName != null">
+                goods_name_zh = #{goodsZhName,jdbcType=VARCHAR},
             </if>
-            <if test="goodsIntro != null">
-                goods_intro = #{goodsIntro,jdbcType=VARCHAR},
+            <if test="goodsZhIntro != null">
+                goods_intro_zh = #{goodsZhIntro,jdbcType=VARCHAR},
             </if>
             <if test="goodsCategoryId != null">
                 goods_category_id = #{goodsCategoryId,jdbcType=BIGINT},
@@ -349,8 +353,8 @@ Copyright (c) 2020 十三 all rights reserved.
     </update>
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="ltd.newbee.mall.entity.NewBeeMallGoods">
     update tb_newbee_mall_goods_info
-    set goods_name = #{goodsName,jdbcType=VARCHAR},
-      goods_intro = #{goodsIntro,jdbcType=VARCHAR},
+    set goods_name_zh = #{goodsZhName,jdbcType=VARCHAR},
+      goods_intro_zh = #{goodsZhIntro,jdbcType=VARCHAR},
       goods_cover_img = #{goodsCoverImg,jdbcType=VARCHAR},
       goods_carousel = #{goodsCarousel,jdbcType=VARCHAR},
       original_price = #{originalPrice,jdbcType=INTEGER},
@@ -367,8 +371,8 @@ Copyright (c) 2020 十三 all rights reserved.
   </update>
     <update id="updateByPrimaryKey" parameterType="ltd.newbee.mall.entity.NewBeeMallGoods">
     update tb_newbee_mall_goods_info
-    set goods_name = #{goodsName,jdbcType=VARCHAR},
-      goods_intro = #{goodsIntro,jdbcType=VARCHAR},
+    set goods_name_zh = #{goodsZhName,jdbcType=VARCHAR},
+      goods_intro_zh = #{goodsZhIntro,jdbcType=VARCHAR},
       goods_cover_img = #{goodsCoverImg,jdbcType=VARCHAR},
       goods_carousel = #{goodsCarousel,jdbcType=VARCHAR},
       original_price = #{originalPrice,jdbcType=INTEGER},

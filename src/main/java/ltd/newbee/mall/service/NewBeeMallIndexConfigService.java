@@ -17,7 +17,8 @@ public interface NewBeeMallIndexConfigService {
      * 返回固定数量的首页配置商品对象(首页调用)
      *
      * @param number
+     * @param lang 控制返回名称字段的语言类型，zh-CN:中文，en-US:英文，ca-ca：柬文
      * @return
      */
-    List<NewBeeMallIndexConfigGoodsVO> getConfigGoodsesForIndex(int configType, int number);
+    List<NewBeeMallIndexConfigGoodsVO> getConfigGoodsesForIndex(int configType, int number, String lang);
 }

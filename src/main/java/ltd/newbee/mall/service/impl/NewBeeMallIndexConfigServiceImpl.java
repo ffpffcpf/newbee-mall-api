@@ -8,6 +8,7 @@
  */
 package ltd.newbee.mall.service.impl;
 
+import ltd.newbee.mall.api.mapper.MallIndexConfigGoodsVoMapper;
 import ltd.newbee.mall.api.vo.NewBeeMallIndexConfigGoodsVO;
 import ltd.newbee.mall.dao.IndexConfigMapper;
 import ltd.newbee.mall.dao.NewBeeMallGoodsMapper;
@@ -32,15 +33,19 @@ public class NewBeeMallIndexConfigServiceImpl implements NewBeeMallIndexConfigSe
     @Autowired
     private NewBeeMallGoodsMapper goodsMapper;
 
+    @Autowired
+    private MallIndexConfigGoodsVoMapper configGoodsVoMapper;
+
     @Override
-    public List<NewBeeMallIndexConfigGoodsVO> getConfigGoodsesForIndex(int configType, int number) {
+    public List<NewBeeMallIndexConfigGoodsVO> getConfigGoodsesForIndex(int configType, int number, String lang) {
         List<NewBeeMallIndexConfigGoodsVO> newBeeMallIndexConfigGoodsVOS = new ArrayList<>(number);
         List<IndexConfig> indexConfigs = indexConfigMapper.findIndexConfigsByTypeAndNum(configType, number);
         if (!CollectionUtils.isEmpty(indexConfigs)) {
             //取出所有的goodsId
             List<Long> goodsIds = indexConfigs.stream().map(IndexConfig::getGoodsId).collect(Collectors.toList());
             List<NewBeeMallGoods> newBeeMallGoods = goodsMapper.selectByPrimaryKeys(goodsIds);
-            newBeeMallIndexConfigGoodsVOS = BeanUtil.copyList(newBeeMallGoods, NewBeeMallIndexConfigGoodsVO.class);
+            newBeeMallIndexConfigGoodsVOS = BeanUtil.copyList(newBeeMallGoods, NewBeeMallIndexConfigGoodsVO.class,
+                    lang, configGoodsVoMapper);
             for (NewBeeMallIndexConfigGoodsVO newBeeMallIndexConfigGoodsVO : newBeeMallIndexConfigGoodsVOS) {
                 String goodsName = newBeeMallIndexConfigGoodsVO.getGoodsName();
                 String goodsIntro = newBeeMallIndexConfigGoodsVO.getGoodsIntro();
