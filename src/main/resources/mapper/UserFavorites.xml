@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.UserFavoritesMapper">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.UserFavorites">
+        <id column="favorites_id" jdbcType="BIGINT" property="favoritesId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        favorites_id, user_id, goods_id, is_deleted, create_time, update_time
+    </sql>
+</mapper>

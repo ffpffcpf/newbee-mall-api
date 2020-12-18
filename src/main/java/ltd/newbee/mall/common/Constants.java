@@ -32,6 +32,7 @@ public class Constants {
     public final static int SHOPPING_CART_ITEM_TOTAL_NUMBER = 20;//购物车中商品的最大数量(可根据自身需求修改)
 
     public final static int SHOPPING_CART_ITEM_LIMIT_NUMBER = 5;//购物车中单个商品的最大购买数量(可根据自身需求修改)
+    public final static int FAVORITES_PAGE_NUMBER = 5;//收藏夹分页默认条数(可根据自身需求修改)
 
     public final static String MALL_USER_SESSION_KEY = "newBeeMallUser";//session中user的key
 
