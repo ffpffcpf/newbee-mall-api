@@ -59,7 +59,11 @@ public class UserFavoritesServiceImpl implements UserFavoritesService {
             UserFavoritesListVO vo = new UserFavoritesListVO();
             NewBeeMallGoods favoriteGoods = newBeeMallGoodsMap
                     .get(userFavorite.getGoodsId());
-            BeanUtil.copyProperties(userFavorite, vo);
+            vo.setFavoritesId(userFavorite.getFavoritesId());
+            vo.setGoodsCoverImg(favoriteGoods.getGoodsCoverImg());
+            vo.setGoodsId(favoriteGoods.getGoodsId());
+            vo.setSellingPrice(favoriteGoods.getSellingPrice());
+
             switch (lang) {
                 case Constants.I18N_LANG_EN:
                     vo.setGoodsName(favoriteGoods.getGoodsEnName());break;

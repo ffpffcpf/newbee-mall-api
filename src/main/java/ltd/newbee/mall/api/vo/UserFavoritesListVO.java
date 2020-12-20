@@ -7,10 +7,10 @@ import lombok.Data;
 public class UserFavoritesListVO {
 
     @ApiModelProperty("收藏项id")
-    private Integer favoritesId;
+    private Long favoritesId;
 
     @ApiModelProperty("商品id")
-    private Integer goodsId;
+    private Long goodsId;
 
     @ApiModelProperty("商品名称")
     private String goodsName;
