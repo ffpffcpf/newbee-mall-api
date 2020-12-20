@@ -5,4 +5,6 @@ import ltd.newbee.mall.util.PageResult;
 
 public interface UserFavoritesService {
     PageResult queryUserFavorites(PageQueryUtil pageUtil, String lang);
+
+    String saveUserFavorites(Long userId, Long goodsId);
 }

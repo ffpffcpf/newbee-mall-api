@@ -1,8 +1,10 @@
 package ltd.newbee.mall.api;
 
 import io.swagger.annotations.ApiOperation;
+import ltd.newbee.mall.api.param.AddUserFavoritesParam;
 import ltd.newbee.mall.api.vo.UserFavoritesListVO;
 import ltd.newbee.mall.common.Constants;
+import ltd.newbee.mall.common.ServiceResultEnum;
 import ltd.newbee.mall.config.annotation.TokenToMallUser;
 import ltd.newbee.mall.entity.MallUser;
 import ltd.newbee.mall.service.UserFavoritesService;
@@ -41,6 +43,22 @@ public class UserFavoritesApi {
 
         PageQueryUtil pageUtil = new PageQueryUtil(pageQueryParams);
         return ResultGenerator.genSuccessResult(userFavoritesService.queryUserFavorites(pageUtil, lang));
+    }
+
+    @PostMapping("favorites")
+    @ApiOperation("收藏商品")
+    public Result addUserFavorites(
+            @TokenToMallUser MallUser user,
+            @RequestBody AddUserFavoritesParam param
+    ) {
+        String saveResult = userFavoritesService.saveUserFavorites(user.getUserId(), param.getGoodsId());
+
+        //添加成功
+        if (ServiceResultEnum.SUCCESS.getResult().equals(saveResult)) {
+            return ResultGenerator.genSuccessResult();
+        }
+        //添加失败
+        return ResultGenerator.genFailResult(saveResult);
     }
 
 }

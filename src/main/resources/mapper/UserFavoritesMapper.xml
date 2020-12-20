@@ -27,4 +27,55 @@
         from user_favorites
         where user_id = #{userId,jdbcType=BIGINT} and is_deleted = 0
     </select>
+
+    <select id="selectByUserIdAndGoodsId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from user_favorites
+        where user_id = #{userId,jdbcType=BIGINT} and goods_id = #{goodsId,jdbcType=BIGINT} and is_deleted = 0
+    </select>
+
+    <insert id="insertSelective" parameterType="ltd.newbee.mall.entity.UserFavorites">
+        insert into user_favorites
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="favoritesId != null">
+                favorites_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="favoritesId != null">
+                #{favoritesId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
 </mapper>

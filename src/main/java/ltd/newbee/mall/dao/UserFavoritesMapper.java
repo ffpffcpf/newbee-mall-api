@@ -10,4 +10,8 @@ public interface UserFavoritesMapper {
 
     List<UserFavorites> selectByUserId(@Param("userId") Long userId, @Param("pageNum") int pageNum);
     int selectTotalUserFavorites(PageQueryUtil pageQueryUtil);
+
+    UserFavorites selectByUserIdAndGoodsId(@Param("userId")Long userId, @Param("goodsId")Long goodsId);
+
+    int insertSelective(UserFavorites favorites);
 }
